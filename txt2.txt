@@ -1,0 +1,202 @@
+
+
+名称：gtk_widget_set_app_paintable
+原型：void gtk_widget_set_app_paintable（GtkWidget * widget，gbooleanapp_paintable）
+描述：
+
+设置应用程序是否在“暴露事件”处理程序中绘制窗口小部件。
+ 
+这是一个小部件的提示，并不影响GTK +核心的行为;许多小部件完全忽略这个标志。
+
+对于注意标志的小部件，例如GtkEventBox和GtkWindow，效果是抑制小部件背景的默认主题绘图。
+
+（小部件的小孩仍然会被绘制。）
+
+ 然后应用程序完全负责绘制窗口小部件背景。
+
+请注意，当小部件被映射时，背景仍然被绘制。
+
+如果这不合适（例如，因为您想使用RGBA视觉制作透明窗口），可以通过以下操作来解决此问题：
+
+gtk_widget_realize（window）; gdk_window_set_back_pixmap（window-> window，NULL，FALSE）; gtk_widget_show（window）;
+
+
+/**
+  * cairo_t：
+ *
+  * #cairo_t包含渲染设备的当前状态，包括尚未绘制形状的坐标。
+ *
+  *开罗上下文，因为cairo_t对象被命名，是开罗的中心，所有绘制与开罗总是完成一个cairo_t对象。
+ *
+  * cairo_t的内存管理使用cairo_reference（）和cairo_destroy（）完成。
+ *
+  *自：1.0
+ **/
+typedef struct _cairo cairo_t;
+
+
+
+
+
+/*
+ #cairo_surface_t表示作为绘图操作的目标或绘制到另一个曲面上的源的图像。
+
+要绘制到cairo_surface_t，使用cairo_create（）创建一个表面为目标的cairo上下文。
+ *
+ *不同的绘图后端有不同的cairo_surface_t子类型;
+ 例如，cairo_image_surface_create（）在内存中创建位图图像。
+ *可以使用cairo_surface_get_type（）查询曲面的类型。
+ *
+ *创建后的曲面的初始内容取决于创作的方式。如果cairo为用户创建了表面和后备存储，那么它将被初始化;例如，cairo_image_surface_create（）和cairo_surface_create_similar（）。
+
+ *或者，如果用户通过引用某些后台存储并且请求开罗将其包装在#cairo_surface_t中，则内容不会被修改;例如，cairo_image_surface_create_for_data（）和cairo_xlib_surface_create（）。
+ 
+
+ * #cairo_surface_t的内存管理使用cairo_surface_reference（）和cairo_surface_destroy（）完成。
+ 
+ 
+ 
+ 
+ /**
+  * cairo_device_t：
+ *
+  * #cairo_device_t表示用于绘制操作到cairo_surface_t的驱动程序接口。 cairo_device_t有不同的子类型用于不同的后端;
+例如，cairo_egl_device_create（）创建一个包装EGL显示和上下文的设备。
+ *
+  *可以使用cairo_device_get_type（）查询设备的类型。
+ *
+  * #cairo_device_t的内存管理使用cairo_device_reference（）和cairo_device_destroy（）完成。
+ *
+  *自：1.10
+ **/
+typedef struct _cairo_device cairo_device_t;
+
+
+
+
+/**
+  * cairo_matrix_t：
+  * @xx：仿射变换的xx分量
+  * @yx：yx的仿射变换组件
+  * @xy：xy成分的仿射变换
+  * @yy：yy是仿射变换的组成部分
+  * @ x0：X的转换成分的仿射变换
+  * @ y0：Y是仿射变换的翻译分量
+ *
+  * #cairo_matrix_t拥有仿射变换，比如缩放，旋转，剪切或者它们的组合。 点（x，y）的转换由下式给出：
+  * <programlisting>
+  * x_new = xx * x + xy * y + x0;
+  * y_new = yx * x + yy * y + y0;
+  * </ programlisting>
+ *
+  *自：1.0
+ **/
+ typedef struct _cairo_matrix {
+    double xx; double yx;
+    double xy; double yy;
+    double x0; double y0;
+} cairo_matrix_t;
+
+
+
+
+/**
+  * cairo_pattern_t：
+ *
+  * #cairo_pattern_t在绘制到曲面上时表示一个源。 #cairo_pattern_t有不同的子类型，用于不同类型的源; 例如，
+  * cairo_pattern_create_rgb（）创建一个实体不透明颜色的图案。
+ *
+  *各种不同
+  * <function> cairo_pattern_create_ <emphasis> type </ emphasis>（）</ function>
+  *函数，一些模式类型可以使用各种隐式创建
+  * <function> cairo_set_source_ <emphasis> type </ emphasis>（）</ function> functions;
+  *例如cairo_set_source_rgb（）。
+ *
+  *可以使用cairo_pattern_get_type（）查询模式的类型。
+ *
+  * #cairo_pattern_t的内存管理使用cairo_pattern_reference（）和cairo_pattern_destroy（）完成。
+ *
+  *自：1.0
+ **/
+typedef struct _cairo_pattern cairo_pattern_t;
+
+
+
+
+* #cairo_status_t用于指示使用Cairo时可能发生的错误。 在某些情况下，它是由函数直接返回的。
+  *但是当使用#cairo_t时，最后一个错误（如果有的话）存储在上下文中，可以使用cairo_status（）检索。
+ *
+  *未来版本可能会添加新的条目。 使用cairo_status_to_string（）获取错误消息的人机可读表示。
+ *
+  *自：1.0
+  
+  
+  
+  
+  /**
+  * cairo_content_t：
+  * @CAIRO_CONTENT_COLOR：表面只能保持颜色内容。 （从1.0开始）
+  * @CAIRO_CONTENT_ALPHA：表面将仅保留alpha内容。 （从1.0开始）
+  * @CAIRO_CONTENT_COLOR_ALPHA：表面将保持颜色和alpha内容。 （从1.0开始）
+ *
+  * #cairo_content_t用于描述表面将包含的内容，无论是颜色信息，alpha信息（半透明度还是不透明度）或两者。
+ *
+  *注意：这里的大值旨在使#cairo_content_t值与#cairo_format_t值不同，以便在用户混淆这两种类型时，实现可以检测到错误。
+ *
+  *自：1.0
+ **/
+typedef枚举_cairo_content {
+     CAIRO_CONTENT_COLOR = 0x1000，
+     CAIRO_CONTENT_ALPHA = 0x2000，
+     CAIRO_CONTENT_COLOR_ALPHA = 0x3000
+} cairo_content_t;
+
+
+
+
+/**
+  * cairo_write_func_t：
+  * @closure：输出关闭
+  * @data：包含要写入的数据的缓冲区
+  * @length：要写入的数据量
+ *
+  * #cairo_write_func_t是当后端需要将数据写入输出流时调用的函数的类型。
+通过在写入功能时由用户指定的闭包，要写入的数据和数据的长度（以字节为单位）。
+
+如果所有数据成功写入，写入函数应返回％CAIRO_STATUS_SUCCESS，
+  *％CAIRO_STATUS_WRITE_ERROR否则。
+ *
+  *返回：写操作的状态码
+ *
+  *自：1.0
+ **/
+typedef cairo_status_t（* cairo_write_func_t）（void * closure，
+const unsigned char *数据，
+unsigned int length）;
+
+
+
+
+/**
+  * cairo_rectangle_int_t：
+  * @x：矩形左侧的X坐标
+  * @y：矩形顶端的Y坐标
+  * @width：矩形的宽度
+  * @height：矩形的高度
+ *
+  *用于保存整数坐标的矩形的数据结构。
+ *
+  *自：1.10
+ **/
+
+typedef struct _cairo_rectangle_int {
+     int x，y;
+     int width，height;
+} cairo_rectangle_int_t;
+
+
+
+
+
+
+ 
