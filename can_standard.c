@@ -211,7 +211,7 @@ int can_get_sockfd(void)
 	return can_sockfd;
 }
 
-void * can_read(void *arg)
+void * read_data(void *arg)
 {
 	pthread_detach(pthread_self());
 
@@ -229,11 +229,6 @@ void * can_read(void *arg)
 
 	while (1)
 	{
-#ifdef TEST
-		usleep(FRAME_RECEIVE_TEST_USLEEP / (double) can_frame_real_time_ar_length);
-//		printf("can_read: usleep(%f) \n", FRAME_RECEIVE_TEST_USLEEP / (double) can_frame_real_time_ar_length);
-#endif
-
 		if (can_read_func_should_exit == 1)
 		{
 			can_read_func_should_exit = 0;
@@ -241,25 +236,28 @@ void * can_read(void *arg)
 		}
 
 #ifdef TEST
-		/*********************************************************/
-		nbytes = sizeof(struct can_frame);
-		u32 r;
-		r = random() % 0XFF;
-		static int s = -1;
-		if (++s == can_frame_real_time_ar_length)
+		static int which_can_id = -1;
+		if (++which_can_id >= can_frame_real_time_ar_length)
 		{
-			s = 0;
+			which_can_id = 0;
 		}
-		in_frame.can_id = can_frame_ar[s].id;
-		if (can_frame_ar[s].frame_choosed == FALSE)
+		if (!can_frame_ar[which_can_id].frame_choosed)
 		{
 //			printf("can_read 1: can_frame_ar[%d].frame_choosed: %d, pf: %d \n", s, can_frame_ar[s].frame_choosed, can_frame_ar[s].pf);
 			continue;
 		}
+		in_frame.can_id = can_frame_ar[which_can_id].id;
 //		printf("can_read 2: can_frame_ar[%d].frame_choosed: %d, id: %d \n", s, can_frame_ar[s].frame_choosed, can_frame_ar[s].pf);
 
-		memset(in_frame.data, r, sizeof(in_frame.data));
-		/*********************************************************/
+		usleep(FRAME_RECEIVE_TEST_USLEEP / (double) can_frame_real_time_ar_length);
+		nbytes = sizeof(struct can_frame);
+		static int v = 10;
+		v += random() % 3 - 1;
+		v = v > 1000 ? 1000 : v;
+		v = v < 0 ? 0 : v;
+
+		memset(in_frame.data, v, sizeof(in_frame.data));
+
 #else
 		while (1)
 		{
@@ -316,14 +314,10 @@ void * can_read(void *arg)
 			printf("\n");
 #endif
 
-			/*********************************************************/
-			/*********************************************************/
-
 			if (deal_with_in_frame(&in_frame) < 0)
 			{
 				exit(1);
 			}
-
 		}
 		else
 		{
@@ -349,7 +343,7 @@ int deal_with_in_frame(struct can_frame * p_can_in_frame)
 	static char sql2[1000] =
 	{0};
 
-	static union
+	union
 	{
 		unsigned char a[8];
 		unsigned long int b;
@@ -369,17 +363,14 @@ int deal_with_in_frame(struct can_frame * p_can_in_frame)
 	if (i == can_frame_ar_length)
 	{
 		printf("deal_with_in_frame: error: i == can_frame_ar_length, received id: %X \n", p_can_in_frame->can_id);
-		return 0;
-		//		return -1;
+		exit(1);
 	}
 
-	/************ check if(frame_choosed == FALSE) *************/
-	if (can_frame_ar[i].frame_choosed == FALSE)
+	if (can_frame_ar[i].frame_choosed == false)
 	{
 		printf("deal_with_in_frame: error: can_frame_ar[%d].frame_choosed == FALSE,"
 				"this id(%X) shoule have been filtered \n", i, can_frame_ar[i].id);
 		return 0;
-		//		return -1;
 	}
 
 	/********** life??? ***********/
@@ -398,7 +389,7 @@ int deal_with_in_frame(struct can_frame * p_can_in_frame)
 
 	for (k = 0; k < can_frame_ar[i].total_node; k++)
 	{
-		if (can_frame_real_time_ar[i].can_node_real_time_ar[k].node_choosed == FALSE)
+		if (can_frame_real_time_ar[i].can_node_real_time_ar[k].node_choosed == false)
 		{
 			continue;
 		}

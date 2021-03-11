@@ -254,5 +254,5 @@ can_frame_t can_frame_ar[] =
 
 };
 
-int can_frame_ar_length = sizeof(can_frame_ar) / sizeof(can_frame_t);
+int can_frame_ar_length = sizeof(can_frame_ar) / sizeof(can_frame_ar[0]);
 

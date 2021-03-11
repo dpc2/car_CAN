@@ -100,7 +100,7 @@ typedef struct
 	int pf;	// frame_id
 
 	/*********** customer select ***********/
-	GtkWidget * check_button_of_cuntomer_choose_frame;
+	GtkWidget * check_button_of_customer_choose_frame;
 	bool frame_choosed;
 
 	/*******************************************/

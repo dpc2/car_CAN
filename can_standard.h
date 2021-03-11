@@ -9,30 +9,27 @@
 #define	CAN_RD		"can1"
 
 #define	MAX_CAN_ID_COUNT							(20)
-#define	MAX_NODE_COUNT_OF_ONE_CAN_ID			(16)
+#define	MAX_NODE_COUNT_OF_ONE_CAN_ID				(16)
 //#define	NODE_NAME_TO_USE							node_name_cn
 #define	ERRCODE_MAX									(32)
 
-//#define	TEST
+#define	TEST
 
 typedef struct
 {
 	/*********** read from configure ***********/
-	char * node_name_en;
-	char * node_name_cn;
-//	struct{
-//	char * en;
-//	char * cn;
-//	}node_name;
+	char *node_name_en;
+	char *node_name_cn;
+
 	int bit_posion_in_bytes;
 	int bit_length;
 	double ratio;	// usually == 1
 	int offset;		// usually == 0
-	char * errcode_text[ERRCODE_MAX];
+	char *errcode_text[ERRCODE_MAX];
 
 	int errcode_text_count;
 
-	char * node_name;	// == node_name_en or node_name_cn
+	char *node_name;	// == node_name_en or node_name_cn
 	bool node_choosed;
 	double value;
 /**** display configure ****/
@@ -71,7 +68,7 @@ typedef struct
 
 int can_get_sockfd(void);
 void * can_write(void *);
-void * can_read(void *);
+void * read_data(void *);
 
 int deal_with_in_frame(struct can_frame * p_can_in_frame);
 

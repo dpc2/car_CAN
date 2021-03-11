@@ -22,13 +22,7 @@ extern int can_frame_ar_length;
 
 int main(int argc, char *argv[])
 {
-
 //	gdk_pixbuf_get_colorspace();
-
-
-
-
-
 //	can_id_conf_ar_length = sizeof(can_id_conf_ar) / sizeof(can_id_conf_t);
 //	printf("can_id_conf_ar_length : %d \n", can_id_conf_ar_length);
 
@@ -115,13 +109,11 @@ int main(int argc, char *argv[])
 ////	gtk_widget_set_sensitive(button_history, FALSE);
 //	gtk_box_pack_end(GTK_BOX(vbox2), button_history, FALSE, TRUE, 10);
 //	g_signal_connect(button_history, "clicked", G_CALLBACK (history_main), window);
-//
-//	bbbb(argc, argv);
+
 //	do_sizegroup(window);
 //	display(window);
 //	dialog(main_window);
 //	do_infobar();
-//	aaaa(window);
 //	do_event_axes(window);
 //	cairo_drawing_area(window);
 //	do_button_box (window);

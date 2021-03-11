@@ -88,8 +88,6 @@ static void real_time_select_node_check_button_call_back(GtkWidget * widget, voi
 
 void dialog_of_real_time_select_pf(GtkButton *button, gpointer user_data)
 {
-
-//	real_time_window;
 	char str[STRING_LENGTH];
 	sprintf(str, "???： %s", time_part_of_new_db_name);
 
@@ -132,9 +130,9 @@ void dialog_of_real_time_select_pf(GtkButton *button, gpointer user_data)
 //		gtk_box_pack_start(GTK_BOX(vbox), frame, TRUE, TRUE, 2);
 //		sprintf(str, "pf: %d", pf->pf);
 		sprintf(str, "************* pf: %d, %s -> %s, id: 0X%08X *************", pf->pf, pf->out, pf->in, pf->id);
-		pfr->check_button_of_cuntomer_choose_frame = gtk_check_button_new_with_label(str);
-		gtk_box_pack_start(GTK_BOX(vbox), pfr->check_button_of_cuntomer_choose_frame, TRUE, TRUE, 2);
-		g_signal_connect(G_OBJECT (pfr->check_button_of_cuntomer_choose_frame), "toggled",
+		pfr->check_button_of_customer_choose_frame = gtk_check_button_new_with_label(str);
+		gtk_box_pack_start(GTK_BOX(vbox), pfr->check_button_of_customer_choose_frame, TRUE, TRUE, 2);
+		g_signal_connect(G_OBJECT (pfr->check_button_of_customer_choose_frame), "toggled",
 				G_CALLBACK (real_time_select_pf_check_button_call_back), (gpointer )pfr);
 
 		for (k = 0; k < pf->total_node; k++)
@@ -161,7 +159,6 @@ void dialog_of_real_time_select_pf(GtkButton *button, gpointer user_data)
 	int response;
 
 	loop:
-
 	response = gtk_dialog_run(GTK_DIALOG(dialog));
 
 //	user_part_of_new_db_name[STRING_LENGTH];
@@ -371,7 +368,7 @@ int real_time_handle(GtkWidget * do_widget, void * data)
 
 		pthread_t send, receive;
 		can_get_sockfd();
-		pthread_create(&receive, NULL, (void*) can_read, NULL);
+		pthread_create(&receive, NULL, (void*) read_data, NULL);
 //		pthread_create(&send, NULL, can_write, NULL);
 
 	}
@@ -440,8 +437,8 @@ int init_can_frame_real_time_ar(void)
 	}
 	if (can_frame_ar_length != can_frame_real_time_ar_length)
 	{
-		printf("can_frame_ar_length(%d) != can_frame_real_time_ar_length(%d) \n", can_frame_ar_length,
-				can_frame_real_time_ar_length);
+		printf("can_frame_ar_length(%d) != can_frame_real_time_ar_length(%d) \n",
+				can_frame_ar_length, can_frame_real_time_ar_length);
 		exit(1);
 	}
 

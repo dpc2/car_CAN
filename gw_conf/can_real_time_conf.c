@@ -11,7 +11,6 @@
 
 can_frame_real_time_t can_frame_real_time_ar[] =
 {
-
 /********** pf-0X61 ***********/
 {.id = 0X0C61D0D1, .pf = 0X61, .total_node = 8, .can_node_real_time_ar =
 {
@@ -38,19 +37,19 @@ can_frame_real_time_t can_frame_real_time_ar[] =
 {SHOW_AS_LINE, COMMON_Y_RULER, RGBA_GREEN, COMMON_LINE_WIDTH}}},
 
 
-///********** pf-0X63 ***********/
-//{.id = 0X0C61D0D1, .pf = 0X63, .total_node = 31, .can_node_real_time_ar =
-//{
-//{SHOW_AS_ENTRY, COMMON_Y_RULER, RGBA_WHITE, COMMON_LINE_WIDTH},
-//{SHOW_AS_ENTRY, COMMON_Y_RULER, RGBA_WHITE, COMMON_LINE_WIDTH},
-//{SHOW_AS_ENTRY, COMMON_Y_RULER, RGBA_WHITE, COMMON_LINE_WIDTH},
-//
-//{SHOW_AS_LINE, COMMON_Y_RULER, RGBA_WHITE, COMMON_LINE_WIDTH},
-//{SHOW_AS_LINE, COMMON_Y_RULER, RGBA_GREEN, COMMON_LINE_WIDTH},
-//{SHOW_AS_LINE, COMMON_Y_RULER, RGBA_GREEN, COMMON_LINE_WIDTH},
-//
-//{SHOW_AS_ENTRY, COMMON_Y_RULER, RGBA_WHITE, COMMON_LINE_WIDTH},
-//{SHOW_AS_ENTRY, COMMON_Y_RULER, RGBA_WHITE, COMMON_LINE_WIDTH}}},
+/********** pf-0X63 ***********/
+{.id = 0X0C63D0D1, .pf = 0X63, .total_node = 31, .can_node_real_time_ar =
+{
+{SHOW_AS_ENTRY, COMMON_Y_RULER, RGBA_WHITE, COMMON_LINE_WIDTH},
+{SHOW_AS_ENTRY, COMMON_Y_RULER, RGBA_WHITE, COMMON_LINE_WIDTH},
+{SHOW_AS_ENTRY, COMMON_Y_RULER, RGBA_WHITE, COMMON_LINE_WIDTH},
+
+{SHOW_AS_LINE, COMMON_Y_RULER, RGBA_WHITE, COMMON_LINE_WIDTH},
+{SHOW_AS_LINE, COMMON_Y_RULER, RGBA_GREEN, COMMON_LINE_WIDTH},
+{SHOW_AS_LINE, COMMON_Y_RULER, RGBA_GREEN, COMMON_LINE_WIDTH},
+
+{SHOW_AS_ENTRY, COMMON_Y_RULER, RGBA_WHITE, COMMON_LINE_WIDTH},
+{SHOW_AS_ENTRY, COMMON_Y_RULER, RGBA_WHITE, COMMON_LINE_WIDTH}}},
 
 /**************************************************************************************************************/
 /**************************************************************************************************************/
@@ -276,5 +275,5 @@ can_frame_real_time_t can_frame_real_time_ar[] =
 
 };
 
-int can_frame_real_time_ar_length = sizeof(can_frame_real_time_ar) / sizeof(can_frame_real_time_t);
+int can_frame_real_time_ar_length = sizeof(can_frame_real_time_ar) / sizeof(can_frame_real_time_ar[0]);
 
